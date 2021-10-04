@@ -1,9 +1,5 @@
-﻿using WebService.Entities;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.EntityFrameworkCore;
+using WebService.Entities;
 
 namespace WebService.Data
 {
@@ -14,8 +10,8 @@ namespace WebService.Data
         {
         }
 
-        public DbSet<AppUser> Users{ get; set; }
+        public DbSet<AppUser> Users { get; set; }
 
-       
+
     }
 }

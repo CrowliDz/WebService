@@ -1,18 +1,15 @@
-﻿using WebService.Data;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using WebService.Entities;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using WebService.Data;
+using WebService.Entities;
 
 namespace WebService.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class UsersController : ControllerBase
+
+    public class UsersController : BaseApiController
     {
         private readonly DataContext _context;
 
@@ -21,18 +18,19 @@ namespace WebService.Controllers
             _context = context;
         }
 
+        [AllowAnonymous]
         [HttpGet]
-
-        public async Task<ActionResult<IEnumerable<AppUser>>> GetUsers() //IE nos eprmite tratar tipos localmente
+        public async Task<ActionResult<List<AppUser>>> GetUsers() //IE nos permite tratar tipos localmente
         {
             return await _context.Users.ToListAsync();
         }
 
+        [Authorize]
         [HttpGet("{id}")]
         [Route("{id}")]
-        public ActionResult<AppUser> GetUser(int id)
+        public async Task<ActionResult<AppUser>> GetUser(int id)
         {
-            return  _context.Users.Find(id);
+            return await _context.Users.FindAsync(id);
         }
 
     }
