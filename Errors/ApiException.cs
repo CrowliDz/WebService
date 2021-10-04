@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace WebService.Errors
+﻿namespace WebService.Errors
 {
     public class ApiException
     {
@@ -11,7 +6,7 @@ namespace WebService.Errors
         public string Message { get; set; }
         public string Details { get; set; }
 
-        public ApiException(int statusCode, string message = null, string details =  null)
+        public ApiException(int statusCode, string message = null, string details = null)
         {
             StatusCode = statusCode;
             this.Message = message;

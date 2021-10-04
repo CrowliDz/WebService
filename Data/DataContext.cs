@@ -11,7 +11,5 @@ namespace WebService.Data
         }
 
         public DbSet<AppUser> Users { get; set; }
-
-
     }
 }

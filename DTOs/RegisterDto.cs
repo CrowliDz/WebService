@@ -5,7 +5,6 @@ namespace WebService.DTOs
     public class RegisterDto
     {
         [Required]
-
         public string Username { get; set; }
 
         [Required]
