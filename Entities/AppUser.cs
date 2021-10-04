@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using WebService.Extensions;
 
 namespace WebService.Entities
 {
@@ -35,5 +36,10 @@ namespace WebService.Entities
 
         public ICollection<Photo> Photos { get; set; }
 
+
+        public int GetAge() 
+        {
+            return DateOfBirth.CalculateAge();
+        }
     }
 }
