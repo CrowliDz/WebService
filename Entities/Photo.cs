@@ -1,5 +1,8 @@
-﻿namespace WebService.Entities
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace WebService.Entities
 {
+    [Table("Photos")]
     public class Photo
     {
         public int Id { get; set; }

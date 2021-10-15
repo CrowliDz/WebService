@@ -43,7 +43,7 @@ namespace WebService.Data.Migrations
                     b.Property<string>("Introduction")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("KknowAs")
+                    b.Property<string>("KnowAs")
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("LastActive")
@@ -88,7 +88,7 @@ namespace WebService.Data.Migrations
 
                     b.HasIndex("AppUserId");
 
-                    b.ToTable("Photo");
+                    b.ToTable("Photos");
                 });
 
             modelBuilder.Entity("WebService.Entities.Photo", b =>

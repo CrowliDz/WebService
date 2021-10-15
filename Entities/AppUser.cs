@@ -16,7 +16,7 @@ namespace WebService.Entities
 
         public DateTime DateOfBirth { get; set; }
 
-        public string KknowAs { get; set; }
+        public string KnowAs { get; set; }
 
         public DateTime Created { get; set; }
 

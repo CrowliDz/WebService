@@ -52,7 +52,7 @@ namespace WebService.Data.Migrations
                 nullable: true);
 
             migrationBuilder.AddColumn<string>(
-                name: "KknowAs",
+                name: "KnowAs",
                 table: "Users",
                 type: "TEXT",
                 nullable: true);
@@ -71,7 +71,7 @@ namespace WebService.Data.Migrations
                 nullable: true);
 
             migrationBuilder.CreateTable(
-                name: "Photo",
+                name: "Photos",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
@@ -83,9 +83,9 @@ namespace WebService.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Photo", x => x.Id);
+                    table.PrimaryKey("PK_Photos", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Photo_Users_AppUserId",
+                        name: "FK_Photos_Users_AppUserId",
                         column: x => x.AppUserId,
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -93,15 +93,15 @@ namespace WebService.Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Photo_AppUserId",
-                table: "Photo",
+                name: "IX_Photos_AppUserId",
+                table: "Photos",
                 column: "AppUserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Photo");
+                name: "Photos");
 
             migrationBuilder.DropColumn(
                 name: "City",
@@ -132,7 +132,7 @@ namespace WebService.Data.Migrations
                 table: "Users");
 
             migrationBuilder.DropColumn(
-                name: "KknowAs",
+                name: "KnowAs",
                 table: "Users");
 
             migrationBuilder.DropColumn(
