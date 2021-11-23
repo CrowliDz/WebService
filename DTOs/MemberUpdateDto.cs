@@ -1,6 +1,6 @@
 ﻿namespace WebService.DTOs
 {
-    public class MemberUpdateDato
+    public class MemberUpdateDto
     {
         public string Introduction { get; set; }
         public string LookingFor { get; set; }

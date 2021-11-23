@@ -2,17 +2,19 @@
 using System.Threading.Tasks;
 using WebService.DTOs;
 using WebService.Entities;
+using WebService.Helpers;
 
 namespace WebService.Interfaces
 {
-    public interface IUserRepository //Sirve para abstraer el acceso a los metodos que mantienen las operaciones CRUD de la db.
+    // Repository Design Pattern
+    public interface IUserRepository
     {
         void Update(AppUser user);
         Task<bool> SaveAllAsync();
         Task<IEnumerable<AppUser>> GetUsersAsync();
         Task<AppUser> GetUserByIdAsync(int id);
         Task<AppUser> GetUserByUsernameAsync(string username);
-        Task<IEnumerable<MemberDto>> GetMembersAsync();
+        Task<PagedList<MemberDto>> GetMembersAsync(UserParams userParams);
         Task<MemberDto> GetMemberAsync(string username);
     }
 }

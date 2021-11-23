@@ -15,7 +15,8 @@ namespace WebService.Middleware
         private readonly ILogger<ExceptionMiddleware> _logger;
         private readonly IHostEnvironment _env;
 
-        public ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger, IHostEnvironment env)
+        public ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger,
+            IHostEnvironment env)
         {
             _next = next;
             _logger = logger;
@@ -36,7 +37,7 @@ namespace WebService.Middleware
 
                 var response = _env.IsDevelopment()
                     ? new ApiException(context.Response.StatusCode, ex.Message, ex.StackTrace?.ToString())
-                    : new ApiException(context.Response.StatusCode, "Some Internal Server Errror has ocurred!");
+                    : new ApiException(context.Response.StatusCode, "Some Internal Server Error has occurred");
 
                 var options = new JsonSerializerOptions
                 {

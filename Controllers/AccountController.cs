@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,17 +26,8 @@ namespace WebService.Controllers
         [HttpPost("register")]
         public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
         {
+            if (await UserExists(registerDto.Username)) return BadRequest("Username is already taken");
 
-            if (string.IsNullOrEmpty(registerDto.Username)) return BadRequest("Username must have a value");
-
-            if (await UserExists(registerDto.Username))
-            {
-                return BadRequest("Username is already taken");
-            }
-
-            //Este using permite ejecutar el metodo Dispose de la clase que se esta instanciando
-            //HMACSHA512 Implementa la interfaz IDisposable
-            //Otras clases que implementan IDisposable: todas las que generan conexiones a BD o archivos.
             using var hmac = new HMACSHA512();
 
             var user = new AppUser
@@ -45,36 +38,24 @@ namespace WebService.Controllers
             };
 
             _context.Users.Add(user);
-
             await _context.SaveChangesAsync();
 
             return new UserDto
             {
                 Username = user.UserName,
-                Token = _tokenService.CreateToken(user)
+                Token = _tokenService.CreateToken(user),
+                // PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain)?.Url,
+                KnownAs = user.KnownAs
             };
-
-            /*
-            try
-            {
-
-                //crea la coexion a BD o al archvios
-            }
-            catch (Exception ex)
-            {
-                //cachear el error
-            }
-            finally { 
-            //cierra las conexiones independientemente de lo que paso arriba
-            }*/
         }
 
         [HttpPost("login")]
         public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
         {
-            var user = await _context.Users.SingleOrDefaultAsync(x => x.UserName == loginDto.Username);
+            var user = await _context.Users
+                .SingleOrDefaultAsync(x => x.UserName == loginDto.Username);
 
-            if (user == null) return Unauthorized("Invalid Login attempt");
+            if (user == null) return Unauthorized("Invalid username or password");
 
             using var hmac = new HMACSHA512(user.PasswordSalt);
 
@@ -88,7 +69,9 @@ namespace WebService.Controllers
             return new UserDto
             {
                 Username = user.UserName,
-                Token = _tokenService.CreateToken(user)
+                Token = _tokenService.CreateToken(user),
+                // PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain)?.Url,
+                KnownAs = user.KnownAs
             };
         }
 
