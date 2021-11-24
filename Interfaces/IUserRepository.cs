@@ -6,7 +6,7 @@ using WebService.Helpers;
 
 namespace WebService.Interfaces
 {
-    // Repository Design Pattern
+    //Repository Design Pattern
     public interface IUserRepository
     {
         void Update(AppUser user);

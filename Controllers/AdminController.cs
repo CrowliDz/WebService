@@ -34,10 +34,9 @@ namespace WebService.Controllers
                     Roles = u.UserRoles.Select(r => r.Role.Name).ToList()
                 })
                 .ToListAsync();
-
             return Ok(users);
         }
-
+        [Authorize(Policy = "RequireAdminRole")]
         [HttpPost("edit-roles/{username}")]
         public async Task<ActionResult> EditRoles(string username, [FromQuery] string roles)
         {
@@ -57,9 +56,7 @@ namespace WebService.Controllers
             if (!result.Succeeded) return BadRequest("Failed to remove from roles");
 
             return Ok(await _userManager.GetRolesAsync(user));
-
         }
-
 
         [Authorize(Policy = "ModeratePhotoRole")]
         [HttpGet("photos-to-moderate")]

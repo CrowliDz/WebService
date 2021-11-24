@@ -18,15 +18,14 @@ namespace WebService.Services
         public PhotoService(IOptions<CloudinarySettings> config)
         {
             var account = new Account
-            (
-                config.Value.CloudName,
-                config.Value.ApiKey,
-                config.Value.ApiSecret
-            );
+                (
+                    config.Value.CloudName,
+                    config.Value.ApiKey,
+                    config.Value.ApiSecret
+                );
 
             _cloudinary = new Cloudinary(account);
         }
-
         public async Task<ImageUploadResult> AddPhotoAsync(IFormFile file)
         {
             var uploadResult = new ImageUploadResult();
@@ -43,10 +42,8 @@ namespace WebService.Services
                                             .Crop("fill")
                                             .Gravity("face")
                 };
-
                 uploadResult = await _cloudinary.UploadAsync(uploadParams);
             }
-
             return uploadResult;
         }
 

@@ -5,40 +5,35 @@ using WebService.Entities;
 
 namespace WebService.Data
 {
-    public class DataContext : IdentityDbContext<AppUser, AppRole, int,
-        IdentityUserClaim<int>, AppUserRole, IdentityUserLogin<int>,
-        IdentityRoleClaim<int>, IdentityUserToken<int>>
+    public class DataContext : IdentityDbContext<AppUser, AppRole, int, IdentityUserClaim<int>,
+        AppUserRole, IdentityUserLogin<int>, IdentityRoleClaim<int>, IdentityUserToken<int>>
     {
         public DataContext(DbContextOptions options) : base(options)
         {
+
         }
-
         public DbSet<UserLike> Likes { get; set; }
-        public DbSet<Message> Messages { get; set; }
 
+        public DbSet<Message> Messages { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            // Calls the method from the parent/base class, which is DbContext.
+            //Calls the method from the parent/base class, which is DbContext.
+
             base.OnModelCreating(builder);
-
             #region Identity
-
             builder.Entity<AppUser>()
-               .HasMany(ur => ur.UserRoles)
-               .WithOne(u => u.User)
-               .HasForeignKey(ur => ur.UserId)
-               .IsRequired();
+                .HasMany(ur => ur.UserRoles)
+                .WithOne(u => u.User)
+                .HasForeignKey(ur => ur.UserId)
+                .IsRequired();
 
             builder.Entity<AppRole>()
                 .HasMany(ur => ur.UserRoles)
                 .WithOne(u => u.Role)
                 .HasForeignKey(ur => ur.RoleId)
                 .IsRequired();
-
             #endregion
-
             #region UserLike
-
             builder.Entity<UserLike>()
                 .HasKey(k => new { k.SourceUserId, k.LikedUserId });
 
@@ -46,18 +41,13 @@ namespace WebService.Data
                 .HasOne(s => s.SourceUser)
                 .WithMany(l => l.LikedUsers)
                 .HasForeignKey(s => s.SourceUserId)
-                .OnDelete(DeleteBehavior.Cascade); // In SQL Server this doesn't work, use "No Action" instead
+                .OnDelete(DeleteBehavior.Cascade);//In SQL Server this doesn't work, use "NoAction" Instead
 
             builder.Entity<UserLike>()
                 .HasOne(s => s.LikedUser)
                 .WithMany(l => l.LikedByUsers)
                 .HasForeignKey(s => s.LikedUserId)
                 .OnDelete(DeleteBehavior.Cascade);
-
-
-            #endregion
-
-            #region Message
 
             builder.Entity<Message>()
                 .HasOne(u => u.Recipient)
@@ -68,7 +58,6 @@ namespace WebService.Data
                 .HasOne(u => u.Sender)
                 .WithMany(m => m.MessagesSent)
                 .OnDelete(DeleteBehavior.Restrict);
-
             #endregion
         }
     }

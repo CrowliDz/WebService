@@ -22,7 +22,6 @@ namespace WebService.Data
             _context = context;
             _mapper = mapper;
         }
-
         public void AddMessage(Message message)
         {
             _context.Messages.Add(message);
@@ -46,16 +45,13 @@ namespace WebService.Data
             var query = _context.Messages
                 .OrderByDescending(m => m.MessageSent)
                 .AsQueryable();
-
             query = messageParams.Container switch
             {
                 "Inbox" => query.Where(u => u.Recipient.UserName == messageParams.Username && u.RecipientDeleted == false),
                 "Outbox" => query.Where(u => u.Sender.UserName == messageParams.Username && u.SenderDeleted == false),
                 _ => query.Where(u => u.Recipient.UserName == messageParams.Username && u.RecipientDeleted == false && u.DateRead == null)
             };
-
             var messages = query.ProjectTo<MessageDto>(_mapper.ConfigurationProvider);
-
             return await PagedList<MessageDto>.CreateAsync(messages, messageParams.PageNumber, messageParams.PageSize);
         }
 
@@ -67,24 +63,19 @@ namespace WebService.Data
                 .Where(m => m.Recipient.UserName == currentUsername && m.RecipientDeleted == false
                         && m.Sender.UserName == recipientUsername
                         || m.Recipient.UserName == recipientUsername
-                        && m.Sender.UserName == currentUsername && m.SenderDeleted == false
-                )
+                        && m.Sender.UserName == currentUsername && m.SenderDeleted == false)
                 .OrderBy(m => m.MessageSent)
                 .ToListAsync();
-
             var unreadMessages = messages.Where(m => m.DateRead == null
                 && m.Recipient.UserName.Equals(currentUsername)).ToList();
-
             if (unreadMessages.Any())
             {
                 foreach (var message in unreadMessages)
                 {
                     message.DateRead = DateTime.Now;
                 }
-
                 await _context.SaveChangesAsync();
             }
-
             return _mapper.Map<IEnumerable<MessageDto>>(messages);
         }
 

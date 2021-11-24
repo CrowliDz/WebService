@@ -3,10 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
 using System.Threading.Tasks;
-using WebService.Data;
 using WebService.DTOs;
 using WebService.Entities;
 using WebService.Interfaces;
@@ -35,8 +32,7 @@ namespace WebService.Controllers
         [HttpPost("register")]
         public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
         {
-            if (string.IsNullOrEmpty(registerDto.Username)) return BadRequest("User Name is already Taken");
-
+            //if (string.IsNullOrEmpty(registerDto.Username)) return BadRequest("User Name is already Taken");
             if (await UserExists(registerDto.Username)) return BadRequest("User Name is already Taken");
 
             var user = _mapper.Map<AppUser>(registerDto);
@@ -64,8 +60,8 @@ namespace WebService.Controllers
         public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
         {
             var user = await _userManager.Users
-                .Include(p => p.Photos)
-                .SingleOrDefaultAsync(x => x.UserName == loginDto.Username.ToLower());
+            .Include(p => p.Photos)
+            .SingleOrDefaultAsync(x => x.UserName == loginDto.Username.ToLower());
 
             if (user == null) return Unauthorized("Invalid username or password");
 

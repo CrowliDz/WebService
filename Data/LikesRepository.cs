@@ -14,7 +14,6 @@ namespace WebService.Data
     public class LikesRepository : ILikesRepository
     {
         private readonly DataContext _context;
-
         public LikesRepository(DataContext context)
         {
             _context = context;
@@ -55,7 +54,7 @@ namespace WebService.Data
             return await PagedList<LikeDto>.CreateAsync(likedUsers, likesParams.PageNumber, likesParams.PageSize);
         }
 
-        public async Task<AppUser> GetUserWithLikes(int userId)
+        public async Task<AppUser> getUserWithLikes(int userId)
         {
             return await _context.Users
                 .Include(x => x.LikedUsers)

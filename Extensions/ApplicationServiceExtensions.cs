@@ -10,8 +10,7 @@ namespace WebService.Extensions
 {
     public static class ApplicationServiceExtensions
     {
-        public static IServiceCollection AddApplicationServices(this IServiceCollection services,
-            IConfiguration config)
+        public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration config)
         {
             services.Configure<CloudinarySettings>(config.GetSection("CloudinarySettings"));
             services.AddScoped<ITokenService, TokenService>();
@@ -25,7 +24,6 @@ namespace WebService.Extensions
             {
                 options.UseSqlite(config.GetConnectionString("DefaultConnection"));
             });
-
             return services;
         }
     }
