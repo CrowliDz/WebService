@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using WebService.Entities;
-using WebService.Extensions;
 
 namespace WebService.DTOs
 {

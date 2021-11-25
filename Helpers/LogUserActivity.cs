@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Threading.Tasks;
 using WebService.Extensions;
 using WebService.Interfaces;
-using Microsoft.Extensions.DependencyInjection;
-using System;
 
 namespace WebService.Helpers
 {
